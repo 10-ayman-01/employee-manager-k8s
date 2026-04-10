@@ -33,24 +33,25 @@ La aplicación estará disponible en `http://localhost:30080`.
 
 ## Estructura
 
-- backend/src/index.js — Entrada de la aplicación
-- backend/src/db.js — Conexión y configuración de la DB
-- backend/src/routes/employees.js — Rutas CRUD
-- backend/Dockerfile
-- frontend/src/index.html
-- frontend/src/css/style.css
-- frontend/src/js/app.js
-- frontend/nginx.conf
-- frontend/Dockerfile
-- k8s/db-pvc.yaml — Volumen persistente para PostgreSQL
-- k8s/db-deployment.yaml — Deployment de la base de datos
-- k8s/db-service.yaml — Servicio interno de la DB
-- k8s/backend-deployment.yaml — Deployment del backend
-- k8s/backend-service.yaml — Servicio interno del backend
-- k8s/frontend-deployment.yaml — Deployment del frontend
-- k8s/frontend-service.yaml — Servicio NodePort del frontend
-- k8s/backend-hpa.yaml — HorizontalPodAutoscaler
-- start.sh — Script de arranque
+```
+├── backend/
+│   ├── src/
+│   │   ├── index.js          # Entrada de la aplicación
+│   │   ├── db.js             # Conexión y configuración de la DB
+│   │   └── routes/
+│   │       └── employees.js  # Rutas CRUD
+│   ├── package.json
+│   └── Dockerfile
+├── frontend/
+│   ├── src/
+│   │   ├── index.html
+│   │   ├── css/style.css
+│   │   └── js/app.js
+│   ├── nginx.conf
+│   └── Dockerfile
+├── docker-compose.yml
+└── start.sh
+```
 
 ## Escalado
 
