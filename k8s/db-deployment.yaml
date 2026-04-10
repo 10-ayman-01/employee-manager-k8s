@@ -40,11 +40,6 @@ spec:
           # CORRECCIÓN: se evita escalada de privilegios
           securityContext:
             allowPrivilegeEscalation: false
-            runAsNonRoot: true
-            runAsUser: 999
-            capabilities:
-              drop:
-                - ALL
           volumeMounts:
             - name: postgres-storage
               # CORRECCIÓN: se usa ruta personalizada fuera de directorios del SO
