@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: db
+  namespace: default
 spec:
   replicas: 1
   selector:
@@ -12,6 +13,7 @@ spec:
       labels:
         app: db
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: db
           image: postgres:15
@@ -23,11 +25,31 @@ spec:
             # Vulnerabilidad existente: contraseña en texto plano en manifiesto
             - name: POSTGRES_PASSWORD
               value: emppass
+            # CORRECCIÓN: se redirige PGDATA fuera de directorios del SO
+            - name: PGDATA
+              value: /data/pgdata
           ports:
             - containerPort: 5432
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 250m
+              memory: 512Mi
+          # CORRECCIÓN: se evita escalada de privilegios
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 999
+            capabilities:
+              drop:
+                - ALL
           volumeMounts:
             - name: postgres-storage
-              mountPath: /var/lib/postgresql/data
+              # CORRECCIÓN: se usa ruta personalizada fuera de directorios del SO
+              mountPath: /data/pgdata
+              subPath: pgdata
       volumes:
         - name: postgres-storage
           persistentVolumeClaim:
